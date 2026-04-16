@@ -1,0 +1,71 @@
+package code.java.project;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Shelter s=new Shelter();
+
+        while(true){
+            System.out.println("\n **** 宠物收养中心 ****");
+            System.out.println("1. 添加动物--小狗");
+            System.out.println("2. 添加动物--小猫");
+            System.out.println("3. 领养动物");
+            System.out.println("4. 查看所有动物");
+            System.out.println("5. 让所有动物叫一声");
+            System.out.println("6. 退出系统");
+
+            int choice =sc.nextInt();
+
+            sc.nextLine();
+            if(choice==1){
+                System.out.println("请输入小狗名字:");
+                String name=sc.nextLine();
+                System.out.println("请输入小狗年龄:");
+                int age=sc.nextInt();
+                sc.nextLine();
+                System.out.println("请输入小狗颜色:");
+                String color=sc.nextLine();
+                Dog d=new Dog(name,age,color);
+                s.addAnimal(d);
+            }
+            else if(choice==2){
+                System.out.println("请输入小猫名字");
+                String name= sc.nextLine();
+                System.out.println("请输入小猫年龄");
+                sc.nextLine();
+                int age=sc.nextInt();
+                System.out.println("请输入小猫颜色");
+                String color=sc.nextLine();
+                Cat c=new Cat(name,age,color);
+                s.addAnimal(c);
+            }
+
+            else if(choice==3){
+                System.out.println("请输入您想领养的动物的名字:");
+                String name=sc.nextLine();
+                s.removeAnimal(name);
+            }
+
+            else if(choice==4){
+                s.showAnimals();
+            }
+
+            else if(choice==5){
+                s.showAllSounds();
+            }
+
+            else if(choice==6){
+                System.out.println("退出系统");
+                break;
+            }
+
+            else{
+                System.out.println("请输入正确的数字");
+            }
+        }
+
+
+    }
+}
