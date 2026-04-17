@@ -1,5 +1,6 @@
 package code.java.project.version;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -43,9 +44,25 @@ public class Main {
             }
 
             else if(choice==3){
+                boolean x=true;
                 System.out.println("请输入您想领养的动物的名字:");
                 String name=sc.nextLine();
-                s.removeAnimal(name);
+                ArrayList<Animal> temp=s.getList();
+                for(Animal i:temp){
+                    if(i.getName().equals(name) && temp.size()<=10){
+                        x=false;
+                        s.removeAnimal(i);
+                        System.out.println("叫"+i.getName()+"的小动物已被领养");
+                        break;
+                    }
+
+                    else if(temp.isEmpty()){
+                        System.out.println("该收容所已经没有动物了");
+                    }
+                }
+                if(x){
+                    System.out.println("该收容所没有叫"+name+"的小动物");
+                }
             }
 
             else if(choice==4){

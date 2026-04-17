@@ -1,74 +1,57 @@
 package code.java.project.version;
 
+import java.util.ArrayList;
+
 public class Shelter {
-    private int cnt =0;//容量
+    private final int CNT =10;//容量
 
-    private int i=0;//数组下标
 
-    private Animal [] animals=new Animal[10];
+    private ArrayList <Animal> list =new ArrayList<>();
 
     public Shelter(){}
-    
+
+
+    public ArrayList<Animal> getList(){
+        return list;
+    }
+
     public void addAnimal(Animal animal){
-        if(cnt>=10){
+        if(list.size()>=CNT){
             System.out.println("该收容所已满员");
             return;
         }
-        for(int j=0;j<animals.length;j++){
-            if(animals[j]==null){
-                animals[j]=animal;
-                cnt++;
-                return;
-            }
+
+        else{
+            list.add(animal);
+            return;
         }
     }
 
-    public void removeAnimal(String animalName){
-        if(cnt<1){
-            System.out.println("该收容所已经没有动物了");
-        }
-
-        else{
-            boolean animalMask=false;
-            int temp_i=0;
-            for(Animal i:animals){
-                if(i!=null && i.getName().equals(animalName)){
-                    animals[temp_i]=null;
-                    animalMask=true;
-                    System.out.println(animalName+"已经被收养了");
-                    cnt-=1;
-                }
-                temp_i++;
-            }
-            if(!animalMask){
-                System.out.println("该收容所没有这只叫"+animalName+"名字的小动物哦");
-            }
-        }
+    public void removeAnimal(Animal animal){
+       list.remove(animal);
     }
 
     public void showAnimals(){
-        if(cnt<1){
+        if(list.isEmpty()){
             System.out.println("该收容所现在没有动物");
         }
         else {
-            for(Animal i : animals){
-                if( i instanceof Dog){
-                    System.out.println("这是一只叫"+i.getName()+ i.getAge()+"岁的小狗");
-                }
-
-                else if(  i instanceof Cat){
-                    System.out.println("这是一只叫"+i.getName()+i.getAge()+"的小猫");
-                }
+            for(int i=0;i< list.size();i++){
+                Animal temp=list.get(i);
+                if(temp instanceof Dog)
+                    System.out.println("这是一只"+temp.getAge()+"岁的叫作"+temp.getName()+"的小狗");
+                else
+                    System.out.println("这是一只"+temp.getAge()+"岁的叫作"+temp.getName()+"的小猫");
             }
-            System.out.println("该收容所现有"+cnt+"只动物");
+            System.out.println("该收容所现有"+list.size()+"只动物");
         }
     }
 
     public void showAllSounds(){
-        for(Animal i:animals){
-            if(i!=null){
+        if(list.isEmpty())
+            System.out.println("该收容所现在没有动物");
+        for(Animal i:list){
                 i.makeSounds();
-            }
         }
     }
 
