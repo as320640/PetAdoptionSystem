@@ -34,8 +34,8 @@ public class Main {
                 System.out.println("请输入小猫名字");
                 String name= sc.nextLine();
                 System.out.println("请输入小猫年龄");
-                sc.nextLine();
                 int age=sc.nextInt();
+                sc.nextLine();
                 System.out.println("请输入小猫颜色");
                 String color=sc.nextLine();
                 Cat c=new Cat(name,age,color);

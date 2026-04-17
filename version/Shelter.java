@@ -10,18 +10,16 @@ public class Shelter {
     public Shelter(){}
     
     public void addAnimal(Animal animal){
-        if(cnt>10){
+        if(cnt>=10){
             System.out.println("该收容所已满员");
+            return;
         }
-        else if (cnt<10 && animals[i]==null){
-            animals[i]=animal;
-            i++;
-            cnt++;
-        }
-
-        else{
-            System.out.println("该位置已有动物");
-            i++;
+        for(int j=0;j<animals.length;j++){
+            if(animals[j]==null){
+                animals[j]=animal;
+                cnt++;
+                return;
+            }
         }
     }
 
@@ -34,7 +32,7 @@ public class Shelter {
             boolean animalMask=false;
             int temp_i=0;
             for(Animal i:animals){
-                if(i.getName().equals(animalName)){
+                if(i!=null && i.getName().equals(animalName)){
                     animals[temp_i]=null;
                     animalMask=true;
                     System.out.println(animalName+"已经被收养了");
@@ -55,7 +53,7 @@ public class Shelter {
         else {
             for(Animal i : animals){
                 if( i instanceof Dog){
-                    System.out.println("这是一只叫"+i.getName()+i.getAge()+"岁的小狗");
+                    System.out.println("这是一只叫"+i.getName()+ i.getAge()+"岁的小狗");
                 }
 
                 else if(  i instanceof Cat){
