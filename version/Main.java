@@ -47,22 +47,18 @@ public class Main {
                 boolean x=true;
                 System.out.println("请输入您想领养的动物的名字:");
                 String name=sc.nextLine();
-                ArrayList<Animal> temp=s.getList();
-                for(Animal i:temp){
-                    if(i.getName().equals(name) && temp.size()<=10){
-                        x=false;
-                        s.removeAnimal(i);
-                        System.out.println("叫"+i.getName()+"的小动物已被领养");
-                        break;
-                    }
+                if(s.listIsEmpty()){
+                    System.out.println("该收容所已经没有动物了");
+                }
+                else{
+                    boolean success= s.removeAnimal(name);
+                    if(success)
+                        System.out.println("叫 " + name + " 的小动物已被领养");
+                    else
+                        System.out.println("该收容所没有叫 " + name + " 的小动物");
+                }
 
-                    else if(temp.isEmpty()){
-                        System.out.println("该收容所已经没有动物了");
-                    }
-                }
-                if(x){
-                    System.out.println("该收容所没有叫"+name+"的小动物");
-                }
+
             }
 
             else if(choice==4){

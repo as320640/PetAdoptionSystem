@@ -10,10 +10,10 @@ public class Shelter {
 
     public Shelter(){}
 
-
-    public ArrayList<Animal> getList(){
-        return list;
+    public boolean listIsEmpty(){//判断list是否为空
+        return list.isEmpty();
     }
+
 
     public void addAnimal(Animal animal){
         if(list.size()>=CNT){
@@ -27,8 +27,21 @@ public class Shelter {
         }
     }
 
-    public void removeAnimal(Animal animal){
-       list.remove(animal);
+    public Animal findAnimal(String animalName){
+        for(Animal i:list){
+            if(i.getName().equals(animalName)){
+                return i;
+            }
+        }
+        return null;
+    }
+    public boolean removeAnimal(String animalName){
+        Animal temp=findAnimal(animalName);
+        if(temp!=null){
+            list.remove(temp);
+            return true;
+        }
+        return false;
     }
 
     public void showAnimals(){
@@ -46,6 +59,8 @@ public class Shelter {
             System.out.println("该收容所现有"+list.size()+"只动物");
         }
     }
+
+
 
     public void showAllSounds(){
         if(list.isEmpty())
