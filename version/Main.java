@@ -14,8 +14,9 @@ public class Main {
             System.out.println("2. 添加动物--小猫");
             System.out.println("3. 领养动物");
             System.out.println("4. 查看所有动物");
-            System.out.println("5. 让所有动物叫一声");
-            System.out.println("6. 退出系统");
+            System.out.println("5. 按年龄升序查看所有动物");
+            System.out.println("6. 让所有动物叫一声");
+            System.out.println("7. 退出系统");
 
             int choice =sc.nextInt();
 
@@ -66,10 +67,14 @@ public class Main {
             }
 
             else if(choice==5){
-                s.showAllSounds();
+                s.showAnimalsInAge();
             }
 
             else if(choice==6){
+                s.showAllSounds();
+            }
+
+            else if(choice==7){
                 System.out.println("退出系统");
                 break;
             }

@@ -1,6 +1,7 @@
 package code.java.project.version;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Shelter {
     private final int CNT =10;//容量
@@ -58,6 +59,21 @@ public class Shelter {
             }
             System.out.println("该收容所现有"+list.size()+"只动物");
         }
+    }
+
+    //利用stream流 链式操作按年龄升序来展示动物
+    public void showAnimalsInAge(){
+        list.stream()
+                .filter(s ->s.getAge()>1)
+                .sorted(Comparator.comparingInt(Animal::getAge)
+                        .thenComparing(a -> a instanceof Dog ?0:1))
+                .forEach(s ->{
+                    if(s instanceof Dog)
+                        System.out.println("这是一只"+s.getAge()+"岁的叫作"+s.getName()+"的小狗");
+                    else
+                        System.out.println("这是一只"+s.getAge()+"岁的叫作"+s.getName()+"的小猫");
+                });
+        System.out.println("该收容所现有"+list.size()+"只动物");
     }
 
 
