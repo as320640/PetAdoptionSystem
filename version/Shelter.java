@@ -6,7 +6,6 @@ import java.util.Comparator;
 public class Shelter {
     private final int CNT =10;//容量
 
-
     private ArrayList <Animal> list =new ArrayList<>();
 
     public Shelter(){}
@@ -29,13 +28,13 @@ public class Shelter {
     }
 
     public Animal findAnimal(String animalName){
-        for(Animal i:list){
-            if(i.getName().equals(animalName)){
-                return i;
+            return list.stream()
+                   .filter(s-> s.getName().equals(animalName))
+                   .findFirst()
+                   .orElse(null);
             }
-        }
-        return null;
-    }
+
+
     public boolean removeAnimal(String animalName){
         Animal temp=findAnimal(animalName);
         if(temp!=null){
@@ -65,8 +64,8 @@ public class Shelter {
     public void showAnimalsInAge(){
         list.stream()
                 .filter(s ->s.getAge()>1)
-                .sorted(Comparator.comparingInt(Animal::getAge)
-                        .thenComparing(a -> a instanceof Dog ?0:1))
+                .sorted(Comparator.comparingInt(Animal::getAge)//(Animal a) -> a.getAge()
+                        .thenComparing(a -> a instanceof Dog ?0:1))//当年龄相同时  0表示先显示，1表示后显示
                 .forEach(s ->{
                     if(s instanceof Dog)
                         System.out.println("这是一只"+s.getAge()+"岁的叫作"+s.getName()+"的小狗");
@@ -76,7 +75,30 @@ public class Shelter {
         System.out.println("该收容所现有"+list.size()+"只动物");
     }
 
+    //利用stream流展示狗
+    public void showDog(){
+        long dogCount=list.stream()
+                .filter(animal -> animal instanceof Dog)
+                .count();
 
+        list.stream()
+                .filter(animal -> animal instanceof Dog)
+                .forEach(animal -> System.out.println("这是一只"+animal.getAge()+"岁的叫作"+animal.getName()+"的小狗"));
+
+        System.out.println("该收容所现有"+dogCount+"只小狗");
+    }
+
+    public void showCat(){
+        long catCount=list.stream()
+                .filter(animal -> animal instanceof Cat)
+                .count();
+
+        list.stream()
+                .filter(animal -> animal instanceof Cat)
+                .forEach(animal -> System.out.println("这是一只"+animal.getAge()+"岁的叫作"+animal.getName()+"的小猫"));
+
+        System.out.println("该收容所现有"+catCount+"只小猫");
+    }
 
     public void showAllSounds(){
         if(list.isEmpty())

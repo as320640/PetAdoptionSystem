@@ -13,10 +13,12 @@ public class Main {
             System.out.println("1. 添加动物--小狗");
             System.out.println("2. 添加动物--小猫");
             System.out.println("3. 领养动物");
-            System.out.println("4. 查看所有动物");
-            System.out.println("5. 按年龄升序查看所有动物");
-            System.out.println("6. 让所有动物叫一声");
-            System.out.println("7. 退出系统");
+            System.out.println("4. 查看所有的小狗");
+            System.out.println("5. 查看所有的小猫");
+            System.out.println("6. 查看所有动物");
+            System.out.println("7. 按年龄升序查看所有成年动物");
+            System.out.println("8. 让所有动物叫一声");
+            System.out.println("9. 退出系统");
 
             int choice =sc.nextInt();
 
@@ -63,18 +65,26 @@ public class Main {
             }
 
             else if(choice==4){
-                s.showAnimals();
+                s.showDog();
             }
 
             else if(choice==5){
-                s.showAnimalsInAge();
+                s.showCat();
             }
 
             else if(choice==6){
-                s.showAllSounds();
+                s.showAnimals();
             }
 
             else if(choice==7){
+                s.showAnimalsInAge();
+            }
+
+            else if(choice==8){
+                s.showAllSounds();
+            }
+
+            else if(choice==9){
                 System.out.println("退出系统");
                 break;
             }
