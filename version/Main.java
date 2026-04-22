@@ -1,10 +1,12 @@
 package code.java.project.version;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        int choice=0;
         Scanner sc=new Scanner(System.in);
         Shelter s=new Shelter();
 
@@ -20,80 +22,175 @@ public class Main {
             System.out.println("8. 让所有动物叫一声");
             System.out.println("9. 退出系统");
 
-            int choice =sc.nextInt();
+            while(true){
+                try{
+                    System.out.println("请输入数字：");
+                    choice =sc.nextInt();
+                    sc.nextLine();
+                    break;
+                }catch(InputMismatchException e){
+                    System.out.println("输入错误，请重新输入");
+                    sc.nextLine();
+                }
+            }
 
-            sc.nextLine();
             if(choice==1){
+                int age=0;
+                String name=null;
+                Dog d=new Dog();
+
+
                 System.out.println("请输入小狗名字:");
-                String name=sc.nextLine();
-                System.out.println("请输入小狗年龄:");
-                int age=sc.nextInt();
-                sc.nextLine();
+                 name=sc.nextLine();
+                d.setName(name);
+
+
+                while(true){
+                    try{
+                        System.out.println("请输入小狗年龄:");
+                        age =sc.nextInt();
+                        sc.nextLine();
+                        d.setAge(age);
+                        break;
+                    }catch(AnimalAgeIllegalException e){
+                        System.out.println("输入年龄有误，请重新输入");
+                    }catch(InputMismatchException e){
+                        System.out.println("输入年龄有误，请重新输入");
+                        sc.nextLine();
+                    }
+                }
+
+
                 System.out.println("请输入小狗颜色:");
                 String color=sc.nextLine();
-                Dog d=new Dog(name,age,color);
-                s.addAnimal(d);
+                d.setColor(color);
+
+                while(true){
+                    try{
+                        s.addAnimal(d);
+                        break;
+                    }catch(ShelterFullException e){
+                        System.out.println("该收容所已经满员了");
+                        break;
+                    }catch(AnimalNameException e){
+                        System.out.println("该名字重复，请取另一个名字");
+                        name=sc.nextLine();
+                        d.setName(name);
+                    }
+                }
+
             }
             else if(choice==2){
-                System.out.println("请输入小猫名字");
-                String name= sc.nextLine();
-                System.out.println("请输入小猫年龄");
-                int age=sc.nextInt();
-                sc.nextLine();
-                System.out.println("请输入小猫颜色");
+                int age=0;
+                String name=null;
+                Cat c=new Cat();
+
+
+                System.out.println("请输入小猫名字:");
+                name=sc.nextLine();
+                c.setName(name);
+
+                while(true){//年龄异常处理，防止系统崩溃
+                    try{
+                        System.out.println("请输入小猫年龄:");
+                        age =sc.nextInt();
+                        sc.nextLine();
+                        c.setAge(age);
+                        break;
+                    }catch(AnimalAgeIllegalException e){
+                        System.out.println("输入年龄有误，请重新输入");
+                    }catch (InputMismatchException e){
+                        System.out.println("输入年龄有误，请重新输入");
+                        sc.nextLine();
+                    }
+                }
+
+
+                System.out.println("请输入小猫颜色:");
                 String color=sc.nextLine();
-                Cat c=new Cat(name,age,color);
-                s.addAnimal(c);
+                c.setColor(color);
+
+                while(true){
+                    try{
+                        s.addAnimal(c);
+                        break;
+                    }catch(ShelterFullException e){
+                        System.out.println("该收容所已经满员了");
+                    }catch(AnimalNameException e){
+                        System.out.println("该名字重复，请取另一个名字");
+                        name=sc.nextLine();
+                        c.setName(name);
+                    }
+                }
+
+
+
             }
 
             else if(choice==3){
-                boolean x=true;
+
                 System.out.println("请输入您想领养的动物的名字:");
                 String name=sc.nextLine();
-                if(s.listIsEmpty()){
-                    System.out.println("该收容所已经没有动物了");
-                }
-                else{
-                    boolean success= s.removeAnimal(name);
-                    if(success)
-                        System.out.println("叫 " + name + " 的小动物已被领养");
-                    else
-                        System.out.println("该收容所没有叫 " + name + " 的小动物");
-                }
+               try{
+                   s.removeAnimal(name);
+                   System.out.println("该收容所叫"+name+"的小动物已被领养");
+               }catch (ShelterEmptyException e){
+                   System.out.println("该收容所已经空");
+               } catch (AnimalNotFoundException e) {
+                   System.out.println("该收容所没有"+name+"该小动物");
+               }
 
 
             }
 
             else if(choice==4){
-                s.showDog();
+                try{
+                    s.showDog();
+                }catch(DogEmptyException e){
+                    System.out.println("该收容所已经没有狗");
+                }
+
             }
 
             else if(choice==5){
-                s.showCat();
+                try{
+                    s.showCat();
+                }catch(CatEmptyException e){
+                    System.out.println("该收容所已经没有猫");
+                }
+
             }
 
             else if(choice==6){
-                s.showAnimals();
+                try{
+                    s.showAnimals();
+                }catch(ShelterEmptyException e){
+                    System.out.println("该收容所已经没有动物");
+                }
             }
 
             else if(choice==7){
-                s.showAnimalsInAge();
+                try{
+                    s.showAnimalsInAge();
+                }catch(ShelterEmptyException e){
+                    System.out.println("该收容所已经没有动物");
+                }
             }
 
             else if(choice==8){
-                s.showAllSounds();
+                try{
+                    s.showAllSounds();
+                }catch(ShelterEmptyException e){
+                    System.out.println("该收容所已经没有动物");
+                }
             }
 
             else if(choice==9){
                 System.out.println("退出系统");
                 break;
             }
-
-            else{
-                System.out.println("请输入正确的数字");
-            }
         }
 
-
+        sc.close();
     }
 }

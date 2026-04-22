@@ -2,11 +2,13 @@ package code.java.project.version;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class Shelter {
     private final int CNT =10;//容量
 
     private ArrayList <Animal> list =new ArrayList<>();
+    private HashMap<String,Animal> hashMap=new HashMap<>();
 
     public Shelter(){}
 
@@ -15,38 +17,50 @@ public class Shelter {
     }
 
 
-    public void addAnimal(Animal animal){
+    public void addAnimal(Animal animal) throws ShelterFullException,AnimalNameException{
         if(list.size()>=CNT){
-            System.out.println("该收容所已满员");
-            return;
+            throw new ShelterFullException();
+        }
+
+        else if(hashMap.containsKey(animal.getName())){//结构体执行，表示有重名
+            throw new AnimalNameException();
         }
 
         else{
             list.add(animal);
+            hashMap.put(animal.getName(),animal);
             return;
         }
     }
 
-    public Animal findAnimal(String animalName){
-            return list.stream()
+    private Animal findAnimal(String animalName){//作为Shelter内部使用的方法
+            /*return list.stream()
                    .filter(s-> s.getName().equals(animalName))
                    .findFirst()
-                   .orElse(null);
-            }
-
-
-    public boolean removeAnimal(String animalName){
-        Animal temp=findAnimal(animalName);
-        if(temp!=null){
-            list.remove(temp);
-            return true;
-        }
-        return false;
+                   .orElse(null);*/
+        return hashMap.get(animalName);
     }
 
-    public void showAnimals(){
+
+    public void removeAnimal(String animalName) throws ShelterEmptyException,AnimalNotFoundException{
+        Animal temp=findAnimal(animalName);
+
+        if(listIsEmpty()){
+            throw new ShelterEmptyException();
+        }
+        else if(temp!=null){
+            list.remove(temp);
+            hashMap.remove(animalName);
+
+        }
+        else
+            throw new AnimalNotFoundException();
+
+    }
+
+    public void showAnimals() throws ShelterEmptyException{
         if(list.isEmpty()){
-            System.out.println("该收容所现在没有动物");
+            throw new ShelterEmptyException();
         }
         else {
             for(int i=0;i< list.size();i++){
@@ -61,7 +75,11 @@ public class Shelter {
     }
 
     //利用stream流 链式操作按年龄升序来展示动物
-    public void showAnimalsInAge(){
+    public void showAnimalsInAge() throws ShelterEmptyException{
+        if(list.isEmpty()){
+            throw new ShelterEmptyException();
+        }
+
         list.stream()
                 .filter(s ->s.getAge()>1)
                 .sorted(Comparator.comparingInt(Animal::getAge)//(Animal a) -> a.getAge()
@@ -76,10 +94,14 @@ public class Shelter {
     }
 
     //利用stream流展示狗
-    public void showDog(){
+    public void showDog() throws DogEmptyException{
         long dogCount=list.stream()
                 .filter(animal -> animal instanceof Dog)
                 .count();
+
+        if(dogCount<1){
+            throw new DogEmptyException();
+        }
 
         list.stream()
                 .filter(animal -> animal instanceof Dog)
@@ -88,10 +110,14 @@ public class Shelter {
         System.out.println("该收容所现有"+dogCount+"只小狗");
     }
 
-    public void showCat(){
+    public void showCat() throws CatEmptyException{
         long catCount=list.stream()
                 .filter(animal -> animal instanceof Cat)
                 .count();
+
+        if(catCount<1){
+            throw new CatEmptyException();
+        }
 
         list.stream()
                 .filter(animal -> animal instanceof Cat)
@@ -100,9 +126,9 @@ public class Shelter {
         System.out.println("该收容所现有"+catCount+"只小猫");
     }
 
-    public void showAllSounds(){
+    public void showAllSounds() throws ShelterEmptyException{
         if(list.isEmpty())
-            System.out.println("该收容所现在没有动物");
+            throw new ShelterEmptyException();
         for(Animal i:list){
                 i.makeSounds();
         }

@@ -25,8 +25,11 @@ public abstract class Animal implements MakeSounds{
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(int age)throws AnimalAgeIllegalException {
+        if(age>0 && age<40)
+            this.age = age;
+        else
+            throw new AnimalAgeIllegalException();
     }
 
     public String getColor() {
