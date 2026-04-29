@@ -1,11 +1,14 @@
 package code.java.project.version;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int choice=0;
         Scanner sc=new Scanner(System.in);
         Shelter s=new Shelter();
@@ -20,7 +23,11 @@ public class Main {
             System.out.println("6. 查看所有动物");
             System.out.println("7. 按年龄升序查看所有成年动物");
             System.out.println("8. 让所有动物叫一声");
-            System.out.println("9. 退出系统");
+            System.out.println("9.将动物数据保存在本地");
+            System.out.println("10.将小狗数据保存在本地");
+            System.out.println("11.将小猫数据保存在本地");
+            System.out.println("12.退出系统");
+
 
             while(true){
                 try{
@@ -186,9 +193,44 @@ public class Main {
             }
 
             else if(choice==9){
+                try {
+                    s.printAnimal();
+                    System.out.println("数据已成功保存");
+                } catch (ShelterEmptyException e) {
+                    System.out.println("该收容所已经没有动物");
+                }catch (IOException e){
+                    System.out.println("该路径不存在");
+                }
+            }
+
+            else if(choice==10){
+                try{
+                    s.printDog();
+                    System.out.println("数据已成功保存");
+                }catch (DogEmptyException e){
+                    System.out.println("该收容所已经没有狗");
+                }catch (IOException e){
+                    System.out.println("该路径不存在");
+                }
+            }
+
+            else if(choice==11){
+                try{
+                    s.printCat();
+                    System.out.println("数据已成功保存");
+                }catch(CatEmptyException e){
+                    System.out.println("该收容所已经没有猫");
+                }catch (IOException e){
+                    System.out.println("该路径不存在");
+                }
+            }
+
+            else if(choice==12){
                 System.out.println("退出系统");
                 break;
             }
+
+
         }
 
         sc.close();

@@ -40,5 +40,10 @@ public abstract class Animal implements MakeSounds{
         this.color = color;
     }
 
+    @Override
+    public String toString(){
+        String  animal ="["+"姓名："+name+","+"年龄："+Integer.toString(age)+","+"颜色："+color+"]";
+        return animal;
+    }
 
 }

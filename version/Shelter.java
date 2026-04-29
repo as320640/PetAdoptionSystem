@@ -1,6 +1,10 @@
 package code.java.project.version;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -10,14 +14,15 @@ public class Shelter {
     private ArrayList <Animal> list =new ArrayList<>();
     private HashMap<String,Animal> hashMap=new HashMap<>();
 
-    public Shelter(){}
+
+    public Shelter() throws IOException {}
 
     public boolean listIsEmpty(){//判断list是否为空
         return list.isEmpty();
     }
 
 
-    public void addAnimal(Animal animal) throws ShelterFullException,AnimalNameException{
+    public void addAnimal(Animal animal) {
         if(list.size()>=CNT){
             throw new ShelterFullException();
         }
@@ -42,7 +47,7 @@ public class Shelter {
     }
 
 
-    public void removeAnimal(String animalName) throws ShelterEmptyException,AnimalNotFoundException{
+    public void removeAnimal(String animalName) {
         Animal temp=findAnimal(animalName);
 
         if(listIsEmpty()){
@@ -58,7 +63,7 @@ public class Shelter {
 
     }
 
-    public void showAnimals() throws ShelterEmptyException{
+    public void showAnimals() {
         if(list.isEmpty()){
             throw new ShelterEmptyException();
         }
@@ -75,7 +80,7 @@ public class Shelter {
     }
 
     //利用stream流 链式操作按年龄升序来展示动物
-    public void showAnimalsInAge() throws ShelterEmptyException{
+    public void showAnimalsInAge() {
         if(list.isEmpty()){
             throw new ShelterEmptyException();
         }
@@ -94,7 +99,7 @@ public class Shelter {
     }
 
     //利用stream流展示狗
-    public void showDog() throws DogEmptyException{
+    public void showDog() {
         long dogCount=list.stream()
                 .filter(animal -> animal instanceof Dog)
                 .count();
@@ -110,7 +115,7 @@ public class Shelter {
         System.out.println("该收容所现有"+dogCount+"只小狗");
     }
 
-    public void showCat() throws CatEmptyException{
+    public void showCat(){
         long catCount=list.stream()
                 .filter(animal -> animal instanceof Cat)
                 .count();
@@ -126,7 +131,7 @@ public class Shelter {
         System.out.println("该收容所现有"+catCount+"只小猫");
     }
 
-    public void showAllSounds() throws ShelterEmptyException{
+    public void showAllSounds() {
         if(list.isEmpty())
             throw new ShelterEmptyException();
         for(Animal i:list){
@@ -134,4 +139,54 @@ public class Shelter {
         }
     }
 
+    public void printCat() throws IOException{
+        long catCount=list.stream()
+                .filter(s->s instanceof Cat)
+                .count();
+
+        if(catCount<1)
+            throw new CatEmptyException();
+
+        try(FileWriter frc=new FileWriter("d:\\cat_message.txt");){
+            for(Animal a:list){
+                if(a instanceof Cat){
+                    frc.write(a.toString()+"\r\n");
+                }
+            }
+        }
+    }
+
+    public void printDog() throws IOException{
+        long dogCount=list.stream()
+                .filter(s->s instanceof Dog)
+                .count();
+        if(dogCount<1)
+            throw new DogEmptyException();
+
+        try( FileWriter frd =new FileWriter("d:\\dog_message.txt");){
+            list.stream()
+                    .filter(s-> s instanceof Dog)
+                    .forEach(s-> {
+                        try {
+                            frd.write(s.toString()+"\r\n");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+        }
+
+    }
+
+    public void printAnimal() throws IOException {
+        if(listIsEmpty()){
+            throw new ShelterEmptyException();
+        }
+
+         try(FileWriter fra =new FileWriter("d:\\animal_message.txt");){
+             for(Animal a: list){
+                 String animal=a.toString();
+                 fra.write(animal+"\r\n");
+             }
+         }
+    }
 }
